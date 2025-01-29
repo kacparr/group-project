@@ -1,0 +1,6 @@
+python .\manage.py makemigrations /// to upload changes
+
+ python .\manage.py runserver  /// to run a website
+
+
+blazej:blazej
