@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from store.models import Products
-
+from django.db.models.signals import post_save
 
 class ShippingAddress(models.Model):
     
@@ -21,6 +21,14 @@ class ShippingAddress(models.Model):
     def __str__(self):
         return f"Shipping Address - {str(self.id)}"
     
+def create_shipping(sender, instance, created, **kwargs):
+    if created:
+        user_shipping = ShippingAddress(user=instance)
+        user_shipping.save()
+post_save.connect(create_shipping, sender=User)
+
+
+
 class Order(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE, null=True, blank=True)
     full_name = models.CharField(max_length=255)
@@ -33,7 +41,7 @@ class Order(models.Model):
         return f"Order - {str(self.id)}"
 
 class OrderItem(models.Model):
-    order = models.ForeignKey(Order,on_delete=models.CASCADE, null=True,)
+    order = models.ForeignKey(Order,on_delete=models.CASCADE, null=True)
     product = models.ForeignKey(Products,on_delete=models.CASCADE, null=True)
     user = models.ForeignKey(User,on_delete=models.CASCADE, null=True, blank=True)
 

@@ -7,8 +7,8 @@
         <header class="bg-dark py-5">
             <div class="container px-4 px-lg-5 my-5">
                 <div class="text-center text-white">
-                    <h1 class="display-4 fw-bolder">Checkout</h1>
-                    <p class="lead fw-normal text-white-50 mb-0">Review your order</p>
+                    <h1 class="display-4 fw-bolder">Processing order...</h1>
+                    <p class="lead fw-normal text-white-50 mb-0">Insert your billing info</p>
                 </div>
             </div>
         </header>
@@ -43,19 +43,40 @@
                             <a href="{% url 'cart_summary' %}" class="btn btn-sm btn-outline-dark">Update items </a>
                         </div>
                       </div>
-                    </br></br>
+                    </br>
                     <div class="card">
                         <div class="card-header">
                           Shipping info
                         </div>
                         <div class="card-body">
-                            <form method="POST" action="{% url 'billing_info' %}">
-                            {% csrf_token %}
-                            {{ ship_form.as_p }}
+                            Name: {{ ship_info.shipping_full_name }}<br/>
+                            Email: {{ ship_info.shipping_email }}<br/>
+                            Address 1: {{ ship_info.shipping_address1 }}<br/>
+                            Address 2: {{ ship_info.shipping_address2 }}<br/>
+                            City: {{ ship_info.shipping_city }}<br/>
+                            Area: {{ ship_info.shipping_area }}<br/>
+                            Zipcode: {{ ship_info.shipping_zipcode }}<br/>
+                            Country: {{ ship_info.shipping_country }}<br/>
+                           <a href="{% url 'checkout' %}" class="btn btn-sm btn-outline-dark">Update shipping</a>
+
+
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-outline-dark">Continue to billing</button>
-                    </form>
+                    <br/>
+                    <div class="card">
+                        <div class="card-header">
+                          Billing info
+                        </div>
+                        <div class="card-body">
+                            <form method="POST" action="{%url 'process_order'%}">
+                                {% csrf_token %}
+                                {{ billing_form.as_p }}
+                            </form>
+                        </div>
+                    </div>
+                    </br>
+                    <button type="submit" class="btn btn-outline-dark">Pay now</button>
+                    <br/>
                     <br/><br/>
                 </div>
             </div>
