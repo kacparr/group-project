@@ -10,6 +10,7 @@
 
 
                         {% if user.is_authenticated %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'profile' %}">Profile</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
                             {% else %}
                         <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
@@ -23,18 +24,22 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Categories</a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="{% url 'home' %}">All Products</a></li>
+                                <li><a class="dropdown-item" href="{% url 'category_summary' %}">All Products</a></li>
                                 <li><hr class="dropdown-divider" /></li>
-                                <li><a class="dropdown-item" href="{% url 'category' 'Popular-Items' %}">Popular Items</a></li>
-                                <li><a class="dropdown-item" href="{% url 'category' 'New-Arrivals' %}">New Arrivals</a></li>
-                                <li><a class="dropdown-item" href="{% url 'category' 'Sporty-Wodne' %}">Sporty Wodne</a></li>
-                                <li><a class="dropdown-item" href="{% url 'category' 'New-Arrivals' %}">New Arrivals</a></li>
+                                {% for cat in categories %}
+                                <li><a class="dropdown-item" href="{% url 'category' cat.slug %}">{{cat.name}}</a></li>
+                                {% endfor %}
                             </ul>
                         </li>
                     </ul>
-                    <form class="d-flex">
+                        <form method="POST" action="{% url 'search' %}" class='d-flex'>
+                            {% csrf_token %}
+                            <input class="form-control me-0 w-75" type="search" name="searched" placeholder="Search" aria-label="Search">
+                            <button class="btn btn-outline-dark  ms-0" type="submit"><i class="bi bi-search"></i></button>
+                          </form>
+                        <form class="d-flex">
 
-                        <a href="{% url 'cart_summary' %}"  class="btn btn-outline-dark" type="submit" >                            <i class="bi-cart-fill me-1"></i>
+                        <a href="{% url 'cart_summary' %}"  class="btn btn-outline-dark ms-0" type="submit" >                            <i class="bi-cart-fill me-1"></i>
                             Cart
                             <span class="badge bg-dark text-white ms-1 rounded-pill"id="cart_quantity">{{cart|length }}
 

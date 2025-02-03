@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Your profile</h1>
+            <p class="lead fw-normal text-white-50 mb-0">Profile information and settings</p>
+        </div>
+    </div>
+</header>
+
+<!-- Registration Form Section -->
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg p-4">
+                <h3 class="text-center mb-4">Update user shipping information</h3>
+                <strong>Billing information</strong>
+                <form method="POST" action="{% url 'profile' %}">
+                    {% csrf_token %}
+
+                    {{ bill_form.as_p }} 
+                    <strong>Shipping information</strong>
+                    {{ ship_form.as_p }}
+                    <br/><br/>
+                    <button type="submit" name="bill_form_submit" class="btn btn-secondary w-100">
+                        Update
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg p-4">
+                <h3 class="text-center mb-4">Update user information</h3>
+                <form method="POST" action="{% url 'profile' %}">
+                    {% csrf_token %}
+
+                    {{ user_form.as_p }}  <!-- Fixed this line -->
+
+                    <br/><br/>
+                    <button type="submit" name="user_form_submit" class="btn btn-secondary w-100">
+                        Update
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg p-4">
+                <h3 class="text-center mb-4">Update password</h3>
+                <form method="POST" action="{% url 'profile' %}">
+                    {% csrf_token %}
+
+                    {{ pass_form.as_p }}  <!-- Fixed this line -->
+
+                    <br/><br/>
+                    <button type="submit" name="pass_form_submit" class="btn btn-secondary w-100">
+                        Update
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
